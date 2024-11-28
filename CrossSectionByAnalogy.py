@@ -27,17 +27,38 @@ def Probabilidade_Acerto(d_bolinha, t_fenda, n_tentativas = 1000000):
     d_bolinhas: diametro das bolinhas
     t_fendas: distancias entre os livros
 
+    Implementacao de um metodo Monte Carlo
+
     Returns
     -------
     probabilidade (numero entre 0 e 1) de acertar a bolinha
     a probabilidade e´ estimada com metodo monte carlo usando n_tentativas
     """
     acerto = 0.
+    na_fenda = 0
     for i in range(n_tentativas):
         posicao = rng.random()*t_fenda
         if abs(posicao - t_fenda/2.) < d_bolinha : acerto += 1
-    return acerto/n_tentativas, np.sqrt(acerto)/n_tentativas
+        if abs(posicao - t_fenda/2) < (t_fenda - d_bolinha)/2. : na_fenda += 1
+    return acerto/na_fenda, np.sqrt(acerto)/na_fenda
+
+def Probabilidade_Acerto_Analitica(d_bolinha, t_fenda):
+    """
+    d_bolinhas: diametro das bolinhas
+    t_fendas: distancias entre os livros
+
+    Implementacao de forma analitica
+
+    Returns
+    -------
+    probabilidade (numero entre 0 e 1) de acertar a bolinha
+    a probabilidade e´ estimada com metodo monte carlo usando n_tentativas
+    """
+    return 2.*d_bolinha/(t_fenda-d_bolinha)
 
 
-print("Probabilidade de acerto: ", Probabilidade_Acerto( diametro_bolinha , tamanho_fenda))
+
+print("Probabilidade de acerto Monte Carlo: ", Probabilidade_Acerto( diametro_bolinha , tamanho_fenda))
+print("Probabilidade de acerto Analitico  : ", Probabilidade_Acerto_Analitica( diametro_bolinha , tamanho_fenda))
+
 
